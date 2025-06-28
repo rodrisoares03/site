@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Casais2023_ | Streamer</title>
+  <meta name="description" content="Página oficial do streamer Casais2023_">
+  <!-- Google Fonts for stylish footer and player -->
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Bungee&family=Orbitron:wght@900&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0814;
+      --card: #171523;
+      --card-glass: rgba(30, 28, 48, 0.92);
+      --accent: #9147ff;
+      --accent-light: #c084fc;
+      --accent-gradient: linear-gradient(92deg, #9147ff 0%, #c084fc 100%);
+      --text: #f4f4f5;
+      --muted: #a1a1aa;
+      --hover: #272736;
+      --border: #31234a;
+      --shadow: 0 10px 32px #390b6052, 0 2.5px 10px #0007;
+      --shadow-card: 0 4px 22px #2d1c3c33, 0 1.5px 7px #0006;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', 'Montserrat', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image:
+        radial-gradient(ellipse at 25% 33%, #9147ff09 0%, #9147ff00 70%),
+        radial-gradient(ellipse at 75% 68%, #c084fc1a 0%, #c084fc00 80%);
+    }
+
+    header {
+      width: 100%;
+      min-height: 260px;
+      display: flex;
+      align-items: flex-end;
+      position: relative;
+      box-shadow: 0 3px 38px #9147ff33;
+      border-bottom-left-radius: 80px 32px;
+      border-bottom-right-radius: 80px 32px;
+      overflow: hidden;
+      background: none !important;
+    }
+    .header-bg-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      opacity: 1;
+      pointer-events: none;
+      filter: none;
+    }
+    .header-content {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+    .header-rodri {
+      position: absolute;
+      top: 25px;
+      left: 32px;
+      z-index: 3;
+      font-size: 1.3rem;
+      font-family: 'Luckiest Guy', 'Bungee', 'Orbitron', cursive, sans-serif;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      color: #9147ff;
+      background: none;
+      -webkit-background-clip: unset;
+      -webkit-text-fill-color: unset;
+      background-clip: unset;
+      text-shadow:
+        0 0 4px #000,
+        0 2px 8px #000,
+        2px 2px 0 #000,
+        -2px 2px 0 #000,
+        2px -2px 0 #000,
+        -2px -2px 0 #000;
+      filter: none;
+      animation: rodri-pop 1.3s cubic-bezier(.19,1.34,.77,1.23);
+      transition: font-size .2s, top .2s, left .2s;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+    @media (max-width: 900px) {
+      .header-rodri {
+        left: 10px;
+        font-size: 1rem;
+        top: 12px;
+      }
+      .music-player-wrap { right: 2vw; top: 2vw; }
+      header { min-height: 170px; }
+    }
+    @media (max-width: 600px) {
+      .header-rodri {
+        left: 4vw;
+        font-size: 0.76rem;
+        top: 7px;
+      }
+      .music-player-wrap {
+        right: 2vw;
+        top: 10px;
+        padding: 4px 7px 4px 7px;
+        min-width: 0;
+        gap: 4px;
+      }
+      .music-btn { width: 28px; height: 28px; font-size: 1rem;}
+      .music-player-label { font-size: 0.82rem; }
+      .music-bar { width: 1.7px;}
+      .music-wave { height: 11px;}
+      header { min-height: 100px; }
+    }
+    .bar-image-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: -60px;
+      margin-bottom: 60px;
+      position: relative;
+      z-index: 10;
+    }
+    .bar-image {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 12px 48px #9147ff33, 0 4px 24px #000a;
+      border: 5.5px solid var(--card);
+      background: var(--card);
+      transition: transform 0.19s, box-shadow 0.19s;
+      display: block;
+      outline: 3px solid #c084fc55;
+      outline-offset: 4px;
+    }
+    .bar-image:hover {
+      transform: scale(1.075) rotate(-2deg);
+      box-shadow: 0 20px 80px #c084fc33, 0 10px 44px #000a;
+    }
+
+    .music-player-wrap {
+      position: fixed;
+      top: 32px;
+      right: 32px;
+      z-index: 999;
+      background: var(--card-glass);
+      border-radius: 20px;
+      box-shadow: 0 2px 18px #9147ff28;
+      padding: 7px 20px 7px 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0.96;
+      pointer-events: auto;
+      user-select: none;
+      border: 1.5px solid #a17eff33;
+      min-width: 110px;
+      max-width: 220px;
+      transition: box-shadow .18s, background .18s;
+    }
+    .music-btn {
+      background: var(--accent-gradient);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.4rem;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #9147ff22;
+      transition: background .15s, transform .13s;
+      margin-left: 0;
+      outline: 0;
+      border: 2px solid #c084fc2a;
+      position: relative;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .music-btn:active {
+      background: linear-gradient(90deg, #c084fc 0%, #9147ff 100%);
+      transform: scale(0.97);
+    }
+    .music-btn:hover {
+      background: linear-gradient(90deg, #c084fc 0%, #9147ff 100%);
+      transform: scale(1.08);
+    }
+    .music-btn .material-icons {
+      font-size: 1.5rem;
+      color: #fff;
+      display: block;
+      margin: 0 auto;
+      padding-left: 1px;
+      padding-top: 1px;
+    }
+    .music-player-label {
+      color: #fff;
+      font-size: 1.11rem;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      user-select: none;
+      padding: 0 7px 0 3px;
+      border-radius: 9px;
+      background: none;
+      opacity: 0.93;
+      white-space: nowrap;
+      flex-shrink: 1;
+      text-shadow: 0 2px 8px #9147ff33;
+      transition: color .15s, opacity .16s;
+    }
+    .music-wave {
+      height: 18px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      margin: 0 6px;
+      flex-shrink: 0;
+    }
+    .music-bar {
+      width: 2.4px;
+      border-radius: 2px;
+      background: linear-gradient(180deg,#c084fc 5%,#9147ff 100%);
+      animation: wave 1.3s infinite linear alternate;
+      opacity: 0.82;
+      margin-right: 1px;
+    }
+    .music-bar.bar1 { height: 10px; animation-delay: .1s;}
+    .music-bar.bar2 { height: 15px; animation-delay: .33s;}
+    .music-bar.bar3 { height: 7px; animation-delay: .3s;}
+    .music-bar.bar4 { height: 13px; animation-delay: .19s;}
+    .music-bar.bar5 { height: 11px; animation-delay: .27s;}
+    @keyframes wave {
+      0% { transform: scaleY(.4);}
+      30% { transform: scaleY(1);}
+      60% { transform: scaleY(.7);}
+      100% { transform: scaleY(.3);}
+    }
+    .yt-iframe-audio {
+      display: none;
+    }
+    .music-paused .music-bar {
+      animation-play-state: paused !important;
+      opacity: 0.35 !important;
+      background: #a1a1aa !important;
+    }
+    .music-paused .music-player-label {
+      color: #a1a1aa !important;
+      opacity: 0.55;
+    }
+    @media (max-width: 700px) {
+      .bar-image { width: 105px; height: 105px; }
+      .extra-image { width: 97vw; }
+      .section-title { font-size: 1.25rem; }
+      .thumb-panel { height: 140px;}
+      .rodri-signature { font-size: 1.1rem;}
+    }
+    @media (max-width: 480px) {
+      .thumb-panel { height: 95px;}
+      h1 { font-size: 2.05rem;}
+      .rodri-signature { font-size: 1rem;}
+      header { min-height: 60px; }
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      padding: 1rem;
+      width: 100%;
+    }
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-top: 18px;
+      margin-bottom: 0.5rem;
+      letter-spacing: 2.2px;
+      text-align: center;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 10px #9147ff33);
+    }
+    .username {
+      color: var(--accent-light);
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 0.1rem;
+      font-weight: 500;
+    }
+    .bio {
+      color: var(--muted);
+      max-width: 540px;
+      text-align: center;
+      margin: 1.2rem 0 2.4rem 0;
+      font-size: 1.14rem;
+      background: var(--card-glass);
+      padding: 1.2rem 1.6rem;
+      border-radius: 24px;
+      box-shadow: 0 1.5px 7px #0002;
+      border: 1.5px solid var(--border);
+      backdrop-filter: blur(2.5px);
+      font-weight: 400;
+    }
+    .links {
+      display: flex;
+      gap: 1.3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+    .links a {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: var(--card-glass);
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.8rem 1.6rem;
+      border-radius: 32px;
+      font-weight: 600;
+      font-size: 1.12rem;
+      transition: background .19s, color .19s, transform .19s, box-shadow .18s;
+      border: 2.2px solid var(--border);
+      box-shadow: 0 2.5px 14px #0003;
+      letter-spacing: 1px;
+    }
+    .links a:hover {
+      background: var(--accent-gradient);
+      color: #fff;
+      transform: translateY(-4px) scale(1.075);
+      border-color: var(--accent-light);
+      box-shadow: 0 10px 30px #a278e733, 0 2.5px 10px #0006;
+    }
+    .social-icon {
+      width: 25px;
+      height: 25px;
+      vertical-align: middle;
+      filter: drop-shadow(0 1px 3px #9147ff33);
+    }
+    .section-title {
+      font-size: 2.05rem;
+      margin: 3.7rem 0 1.6rem 0;
+      letter-spacing: 1.3px;
+      color: var(--accent);
+      text-align: center;
+      font-weight: 600;
+      text-shadow: 0 2px 17px #9147ff22;
+    }
+    .videos-panel {
+      width: 100%;
+      max-width: 980px;
+      display: flex;
+      justify-content: center;
+      gap: 2.7rem;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+    }
+    .video-card2 {
+      width: 380px;
+      min-width: 260px;
+      background: var(--card-glass);
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      box-shadow: var(--shadow-card);
+      border: 2px solid #241b37;
+      margin-bottom: 0;
+      transition: box-shadow 0.16s, transform 0.18s, border 0.16s;
+      position: relative;
+      backdrop-filter: blur(5px);
+    }
+    .video-card2:hover {
+      transform: translateY(-8px) scale(1.037);
+      box-shadow: 0 12px 60px #9147ff33, 0 4px 24px #000a;
+      border: 2.5px solid var(--accent-light);
+      z-index: 2;
+    }
+    .thumb-panel {
+      width: 100%;
+      height: 220px;
+      background: #23232d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+    .thumb-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.17s;
+    }
+    .video-card2:hover .thumb-panel img {
+      transform: scale(1.05) rotate(-1deg);
+    }
+    .platform-bar {
+      background: #18181f99;
+      width: 100%;
+      padding: 0.8rem 0 0.6rem 1.2rem;
+      display: flex;
+      align-items: center;
+      font-size: 1.19rem;
+      color: #bbb;
+      gap: 0.6rem;
+      font-weight: 500;
+      border-bottom-left-radius: 22px;
+      border-bottom-right-radius: 22px;
+      border-top: 1px solid #261c3b;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 18px #9147ff14;
+    }
+    .yt-icon, .tt-icon {
+      width: 32px;
+      height: 32px;
+      margin-right: 0.1em;
+      vertical-align: middle;
+      filter: drop-shadow(0 2px 7px #9147ff33);
+    }
+    .extra-image-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 3.5rem 0 1.7rem 0;
+    }
+    .extra-image {
+      display: none; /* Removida da exibição */
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1.13rem;
+      padding: 2.1rem 0 1.2rem 0;
+      margin-top: auto;
+      letter-spacing: 1px;
+      font-weight: 500;
+      background: none;
+      text-shadow: 0 2px 7px #9147ff22;
+      position: relative;
+      z-index: 1;
+    }
+    .rodri-signature {
+      display: block;
+      margin: 2.2rem auto 0 auto;
+      font-size: 2.3rem;
+      font-family: 'Luckiest Guy', 'Bungee', 'Orbitron', cursive, sans-serif;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      color: #fff;
+      background: linear-gradient(90deg,#9147ff,#c084fc 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 7px 32px #9147ff80, 0 2px 10px #0008;
+      filter: drop-shadow(0 2px 24px #c084fc88);
+      animation: rodri-pop 1.3s cubic-bezier(.19,1.34,.77,1.23);
+      transition: font-size .2s;
+    }
+    @keyframes rodri-pop {
+      0% { transform: scale(0.5) rotate(-8deg); opacity: 0; }
+      70% { transform: scale(1.2) rotate(3deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg);}
+    }
+  </style>
+</head>
+<body>
+  <!-- PLAYER DE MÚSICA DO YOUTUBE (oculto) e CONTROLE -->
+  <div class="music-player-wrap music-paused" id="musicPlayer">
+    <button class="music-btn" id="musicToggleBtn" title="Pause/Play música">
+      <span class="material-icons" id="musicBtnIcon">play_arrow</span>
+    </button>
+    <span class="music-player-label">Música</span>
+    <div class="music-wave" id="musicWave">
+      <div class="music-bar bar1"></div>
+      <div class="music-bar bar2"></div>
+      <div class="music-bar bar3"></div>
+      <div class="music-bar bar4"></div>
+      <div class="music-bar bar5"></div>
+    </div>
+    <div id="ytplayer" class="yt-iframe-audio"></div>
+  </div>
+  <script>
+    // Carregar API Youtube IFrame
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+
+    var player, isPlaying = false, userPaused = false, firstPlay = false;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('ytplayer', {
+        height: '0',
+        width: '0',
+        videoId: 'Se2nhydnTIg', // Relax lofi music do YouTube
+        playerVars: {
+          'autoplay': 0,
+          'controls': 0,
+          'loop': 1,
+          'playlist': 'Se2nhydnTIg',
+          'mute': 0,
+          'modestbranding': 1,
+          'origin': location.origin
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+    function onPlayerReady(event) {}
+    function onPlayerStateChange(event) {
+      if(event.data === YT.PlayerState.ENDED) {
+        player.seekTo(0); player.playVideo();
+      }
+      if(event.data === YT.PlayerState.PLAYING){
+        setPlayingVisual(true);
+      } else {
+        setPlayingVisual(false);
+      }
+    }
+    function setPlayingVisual(state) {
+      const waves = document.getElementById("musicWave");
+      const wrap = document.getElementById("musicPlayer");
+      const icon = document.getElementById("musicBtnIcon");
+      if(state){
+        waves.classList.remove("music-paused");
+        wrap.classList.remove("music-paused");
+        icon.textContent = "pause";
+        isPlaying = true;
+      } else {
+        waves.classList.add("music-paused");
+        wrap.classList.add("music-paused");
+        icon.textContent = "play_arrow";
+        isPlaying = false;
+      }
+    }
+    document.getElementById('musicToggleBtn').onclick = function(e) {
+      e.preventDefault();
+      if (!player) return;
+      if (!firstPlay) {
+        player.playVideo();
+        try { player.setVolume(12); } catch (e) {}
+        firstPlay = true;
+        setPlayingVisual(true);
+      } else if (isPlaying) {
+        player.pauseVideo();
+        setPlayingVisual(false);
+      } else {
+        player.playVideo();
+        setPlayingVisual(true);
+      }
+    }
+    setInterval(function(){
+      if(player && isPlaying) {
+        try { player.setVolume(12); } catch(e){}
+      }
+    }, 1000);
+  </script>
+  <header>
+    <!-- Imagem de fundo no header -->
+    <img
+      class="header-bg-img"
+      src="https://yt3.googleusercontent.com/UWvjRJPh41AFS_uwhYfp8CpJAZ3PfyhO0otB1fJ_TpBiGdvEB6irf4dCiwP0Hul0CqZmi75jpQ=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
+      alt="Background Casais2023_"
+      draggable="false"
+    >
+    <span class="header-rodri">Desenvolvido por RODRI</span>
+    <div class="header-content"></div>
+  </header>
+  <div class="bar-image-container" style="margin-top: -60px; margin-bottom: 60px;">
+    <img class="bar-image" src="https://p16-pu-sign-no.tiktokcdn-eu.com/tos-no1a-avt-0068c001-no/f317ea3f7b57916ce5d1d13b1ec49615~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=10399&refresh_token=1af6dcd9&x-expires=1751245200&x-signature=vgB8sVx275pZ96mVAjKKnHfMETE%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=useast2b" alt="Casais2023_">
+  </div>
+  <main>
+    <h1>Casais2023_</h1>
+    <div class="username">@Casais2023_</div>
+    <div class="bio">
+      Olá, eu sou o Casais e faço live todo o dia no TikTok! Na Twitch também faço, mas não com tanta frequência.<br>
+      Aqui em baixo você pode encontrar onde me assistir.<br>
+      Obrigado e vamos para mais uma live, Cambada!
+    </div>
+    <div class="links">
+      <a href="https://www.twitch.tv/casais2023" target="_blank">
+        <img class="social-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/twitch.svg" alt="Twitch" style="filter: invert(65%) sepia(85%) saturate(450%) hue-rotate(245deg);">
+        Twitch
+      </a>
+      <a href="https://discord.gg/gTb22858Tw" target="_blank">
+        <img class="social-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg" alt="Discord" style="filter: invert(70%) sepia(10%) saturate(800%) hue-rotate(205deg);">
+        Discord
+      </a>
+      <a href="https://www.tiktok.com/@casais20.20" target="_blank">
+        <img class="social-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok" style="filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg);">
+        TikTok
+      </a>
+      <a href="https://www.roblox.com/pt/users/1942946888/profile" target="_blank">
+        <img class="social-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg" alt="Roblox" style="filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg);">
+        Roblox
+      </a>
+      <a href="https://www.roblox.com/pt/communities/887683220/Oficial-do-Casais2023#!/about" target="_blank">
+        <img class="social-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/roblox.svg" alt="Roblox Grupo" style="filter: invert(53%) sepia(95%) saturate(1087%) hue-rotate(220deg) brightness(1.1);">
+        Grupo Roblox
+      </a>
+    </div>
+    <!-- YouTube -->
+    <div class="section-title">Alguns vídeos do YouTube</div>
+    <div class="videos-panel">
+      <a class="video-card2" href="https://www.youtube.com/watch?v=QBkDTU4JNA4" target="_blank">
+        <div class="thumb-panel">
+          <img src="https://img.youtube.com/vi/QBkDTU4JNA4/hqdefault.jpg" alt="YouTube Video 1">
+        </div>
+        <div class="platform-bar">
+          <img class="yt-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube"> YouTube
+        </div>
+      </a>
+      <a class="video-card2" href="https://www.youtube.com/watch?v=etNqi0qIYKI" target="_blank">
+        <div class="thumb-panel">
+          <img src="https://img.youtube.com/vi/etNqi0qIYKI/hqdefault.jpg" alt="YouTube Video 2">
+        </div>
+        <div class="platform-bar">
+          <img class="yt-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube"> YouTube
+        </div>
+      </a>
+    </div>
+    <!-- TikTok -->
+    <div class="section-title">Vídeos populares do TikTok</div>
+    <div class="videos-panel">
+      <a class="video-card2" href="https://www.tiktok.com/@casais20.20/video/7492409603033025814?is_from_webapp=1&sender_device=pc" target="_blank">
+        <div class="thumb-panel">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGzqR2CL8ahZxLKybER6Ft0hA8EmWgI-M-QA&s" alt="TikTok Video 1">
+        </div>
+        <div class="platform-bar">
+          <img class="tt-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok"> TikTok
+        </div>
+      </a>
+      <a class="video-card2" href="https://www.tiktok.com/@casais20.20/video/7499044498606099735?is_from_webapp=1&sender_device=pc" target="_blank">
+        <div class="thumb-panel">
+          <img src="https://progameguides.com/wp-content/uploads/2024/12/blox-fruits-yeti-fruit-transformaiton.jpg?resize=1200%2C675" alt="TikTok Video 2">
+        </div>
+        <div class="platform-bar">
+          <img class="tt-icon" src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok"> TikTok
+        </div>
+      </a>
+    </div>
+    <!-- Imagem extra em baixo (removida visualização) -->
+    <div class="extra-image-container">
+      <img class="extra-image" src="https://yt3.googleusercontent.com/UWvjRJPh41AFS_uwhYfp8CpJAZ3PfyhO0otB1fJ_TpBiGdvEB6irf4dCiwP0Hul0CqZmi75jpQ=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj" alt="Banner Casais2023_">
+    </div>
+  </main>
+  <footer>
+    &copy; 2025 Casais2023_ &middot; Todos os direitos reservados.
+    <span class="rodri-signature">Desenvolvido por RODRI</span>
+  </footer>
+</body>
+</html>
